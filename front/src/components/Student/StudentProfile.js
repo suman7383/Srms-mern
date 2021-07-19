@@ -1,10 +1,12 @@
 import React,{useState,useEffect} from 'react';
 import {useHistory} from 'react-router-dom';
+import Navbar from './Navbar';
 
 const StudentProfile = () =>{
 
     const history = useHistory();
     const [userData,setUserData]=useState({});
+    const active = {profile:"active", result:""};
 
     const callProfile = async()=>{
         try {
@@ -36,23 +38,24 @@ const StudentProfile = () =>{
 
     return (
         <>
+            <Navbar active={active}/>
             <div className="container mt-5 profile marks">
                 <div className="row">
-                    <div className="col-md-10 col-12 mx-auto">
-                        <div className="row">
-                            <div className="col-md-4 col-12  my-auto">
+                    <div className="col-md-10 col-10 mx-auto">
+                        <div className="row justify-content-center">
+                            <div className="col-md-10 col-10  my-auto">
                                 <figure className="d-flex justify-content-around">
                                     <img src="/person.png" className="img-fluid" alt="person"></img>
                                 </figure>
                             </div>
-                            <div className="col-md-4 col-6 my-auto">
-                                <p className="text-white h5 mb-3">Name : </p>
-                                <p className="text-white h5 mb-3">Reg. No. : </p>
-                                <p className="text-white h5 mb-3">Email : </p>
-                                <p className="text-white h5 mb-3">Phone No : </p>
-                                <p className="text-white h5">Designation :</p>
+                            <div className="col-md-5 col-6 my-auto ms-auto">
+                                <p className="text-white mb-3">Name : </p>
+                                <p className="text-white mb-3">Reg. No. : </p>
+                                <p className="text-white mb-3">Email : </p>
+                                <p className="text-white mb-3">Phone No : </p>
+                                <p className="text-white">Designation :</p>
                             </div>
-                            <div className="col-md-4 col-6 my-auto">
+                            <div className="col-md-5 col-6 my-auto">
                                 <p className="text-white mb-3">{userData.name} </p>
                                 <p className="text-white mb-3">{userData.reg} </p>
                                 <p className="text-white mb-3">{userData.email} </p>

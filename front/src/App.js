@@ -26,11 +26,9 @@ function App() {
             <StudentSignup/>
         </Route>
         <Route path="/Profile">
-            <Navbar/>
             <StudentProfile/>
         </Route>
         <Route path="/Result">
-            <Navbar/>
             <SResult/>
         </Route>
         <Route path="/Marks">

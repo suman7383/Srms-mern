@@ -4,18 +4,22 @@ const User = require('../models/adminSchema');
 const Authenticate = async (req, res, next) => {
     try {
         
+        
         const token =req.cookies.jwtoken;
-        const verifyToken =await jwt.verify(token,process.env.SECRET_KEY);
-        const rootAdmin = await User.findOne({_id : verifyToken._id , "tokens.token":token});
+        if(token!=null){
+            const verifyToken =await jwt.verify(token,process.env.SECRET_KEY);
+            const rootAdmin = await User.findOne({_id : verifyToken._id , "tokens.token":token});
 
-        if(!rootAdmin){
-            throw new Error("Admin not found");
+            if(!rootAdmin){
+                throw new Error("Admin not found");
+            }
+
+            req.token = token;
+            req.rootAdmin=rootAdmin;
+            req.userId=rootAdmin._id;
+        }else{
+            res.status(401);
         }
-
-        req.token = token;
-        req.rootAdmin=rootAdmin;
-        req.userId=rootAdmin._id;
-
         next();
 
     } catch (error) {

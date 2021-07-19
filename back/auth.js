@@ -181,16 +181,13 @@ router.get('/AdminProfile',authenticate,(req,res)=>{
 })
 
 router.get('/AdminLogged',authenticate,(req,res)=>{
-    console.log("came here");
-    res.status(200).json({message:"Already Logged in!"});
+    res.status(200);
     
     
 })
 
 router.get('/StudentLogged',studentAuthenticate,(req,res)=>{
-    console.log("came here");
-    res.status(200).json({message:"Already Logged in!"});
-    
+    res.status(200);
     
 })
 

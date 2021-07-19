@@ -1,5 +1,6 @@
 import React,{useState,useEffect} from 'react';
 import {useHistory} from 'react-router-dom';
+import Navbar from './Navbar';
 
 const SResult = () =>{
     const history = useHistory();
@@ -20,7 +21,6 @@ const SResult = () =>{
 
             const data = await res.json();
             setPaper(data.data);
-            console.log(paper)
 
             if(!res.status===200){
                 window.alert("Result does not exists");
@@ -78,6 +78,7 @@ const SResult = () =>{
     return(
         <>
 
+            <Navbar/>
             <div className="container mt-5 profile overflow-auto">
                   <div className="row">
                       <div className="col-md-10 col-10 mx-auto mt-3">
@@ -97,7 +98,7 @@ const SResult = () =>{
                                 </datalist>
                               </div>
                               <div className="col-md-3 col-6 mt-auto">
-                                <button type="button" className="btn btn-outline-primary border-2" onClick={clickHandler}>Search</button>
+                                <button type="button" className="btn btn-outline-primary text-white border-2 border-white shadow" onClick={clickHandler}>Search</button>
 
                               </div>
                               </div>

@@ -118,8 +118,8 @@ const ASignIn=()=>{
          </div>
         
             <div className="row">
-                <div className="col-md-4 col-9 mx-auto">
-                    <NavLink className="text-white nav-link" to="/">Student Login</NavLink>
+                <div className="col-md-4 col-9 mx-auto ">
+                    <NavLink className="text-white nav-link slogin" to="/">Student Login</NavLink>
                 </div>
             </div>
         </div>

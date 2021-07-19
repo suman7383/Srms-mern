@@ -18,7 +18,6 @@ const Profile = () =>{
             });
 
             const data = await res.json();
-            console.log(data);
             setUserData(data);
 
             if(!res.status===200){
@@ -40,20 +39,20 @@ const Profile = () =>{
         <>
             <div className="container mt-5 profile">
                 <div className="row">
-                    <div className="col-md-10 col-12 mx-auto">
-                        <div className="row">
-                            <div className="col-md-4 col-12  my-auto">
+                    <div className="col-md-8 col-10 mx-auto">
+                        <div className="row justify-content-center">
+                            <div className="col-md-12 col-12  my-auto">
                                 <figure className="d-flex justify-content-around">
                                     <img src="/person.png" className="img-fluid" alt="person"></img>
                                 </figure>
                             </div>
-                            <div className="col-md-4 col-6 my-auto">
+                            <div className="col-md-5 col-6 ms-auto my-auto">
                                 <p className="text-white h5 mb-4">Name : </p>
                                 <p className="text-white h5 mb-4">Email : </p>
                                 <p className="text-white h5 mb-4">Phone No : </p>
                                 <p className="text-white h5">Designation :</p>
                             </div>
-                            <div className="col-md-4 col-6 my-auto">
+                            <div className="col-md-5 col-6 my-3">
                                 <p className="text-white mb-4">{userData.name} </p>
                                 <p className="text-white mb-4">{userData.email} </p>
                                 <p className="text-white mb-4">{userData.phone} </p>
