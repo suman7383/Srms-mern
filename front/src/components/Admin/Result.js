@@ -1,5 +1,6 @@
 import React,{useState,useEffect} from 'react';
 import {useHistory} from 'react-router-dom';
+import Loader from '../Loader';
 
 const Result = () =>{
     const history = useHistory();
@@ -20,12 +21,11 @@ const Result = () =>{
             });
 
             const data = await res.json();
-            console.log(data);
             setUserData(data);
        
 
             if(!res.status===200){
-                throw new Error("Not Authorized");
+                history.push('/ASignIn');
             }
 
         } catch (error) {
@@ -72,7 +72,7 @@ const Result = () =>{
                                             </datalist>
                                         </div>
                                         <div className="col-md-3 col-6 mt-auto">
-                                            <button type="button" className="btn btn-outline-primary text-white"
+                                            <button type="button" className="btn btn-outline-primary text-white sendBtn border-0"
                                             onClick={clickHandler}>Search</button>
 
                                         </div>
@@ -80,12 +80,12 @@ const Result = () =>{
                               </div>
 
             </div>
-            <div className="container mt-4 profile overflow-auto">
+            <div className="container my-4 profile overflow-auto">
                   <div className="row">
                       <div className="col-md-10 col-10 mx-auto mt-2 ">
                           <div className="row justify-content-center">
-                              
-                              <div className="col-md-12 col-12 mt-2 result">
+
+                              {!userData[0]?<Loader/>:<div className="col-md-12 col-12 my-2 result">
                                     <table className="table">
                                         <thead>
                                             <tr>
@@ -123,7 +123,7 @@ const Result = () =>{
                                                             <td>{algo}</td>
                                                             <td>{os}</td>
                                                             <td>{(((parseInt(maths)+parseInt(physics)+parseInt(algo)+parseInt(os))/400)*100).toFixed(2)}%</td>
-                                                            <td>{(parseInt(maths)+parseInt(physics)+parseInt(algo)+parseInt(os))>=200?"Passed":"Failed"}</td>
+                                                            <td>{(parseInt(maths)+parseInt(physics)+parseInt(algo)+parseInt(os))>=200?<span style={{color:'lightgreen'}}>Passed</span>:<span style={{color:'#FF6666'}}>Failed</span>}</td>
                                                             </>:<>
                                                                 </>
                                                         )
@@ -142,7 +142,9 @@ const Result = () =>{
                                             }
                                         </tbody>
                                     </table>
-                              </div>
+                              </div>}
+                              
+                              
 
                           </div>
 

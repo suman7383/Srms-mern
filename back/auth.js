@@ -16,7 +16,7 @@ router.post('/SRegister',(req,res)=>{
 
     if(!name || !email || !phone || !reg ){
 
-        return res.status(422).json({error:"Please Enter All data"});
+        return res.status(402).json({error:"Please Enter All data"});
     }
 
     Student.findOne({reg:reg})
@@ -160,8 +160,21 @@ router.post('/Marks',authenticate,async(req,res)=>{
 
     const student =await Student.findOne({reg:reg});
     if(student){
-        const update = await student.addMarks(id,maths,physics,algo,os);
-        res.status(200).json({message:"success"})
+        let idPresent=false;
+        
+        student.marks.map((item)=>{
+            if(item.id===id){
+                idPresent=true;
+            }
+        }) 
+
+        if(!idPresent){
+            const update = await student.addMarks(id,maths,physics,algo,os);
+            res.status(200).json({message:"success"})
+        }else if(idPresent){
+            res.status(422).json({message:"success"})
+        }
+
     }else{
         res.status(401).json({message:"Failure"})
     }
@@ -171,7 +184,11 @@ router.post('/Marks',authenticate,async(req,res)=>{
 router.get('/StudentProfile',studentAuthenticate,(req,res)=>{
     console.log("Welcome Student to your profile");
     res.clearCookie('jwtoken', {path: '/'});
-    res.status(200).send(req.rootStudent);
+    if(req.status!==401){
+        res.status(req.status).send(req.rootStudent);
+    }else{
+        res.sendStatus(req.status);
+    }
 })
 
 router.get('/AdminProfile',authenticate,(req,res)=>{
@@ -181,13 +198,11 @@ router.get('/AdminProfile',authenticate,(req,res)=>{
 })
 
 router.get('/AdminLogged',authenticate,(req,res)=>{
-    res.status(200);
-    
-    
+    res.sendStatus(req.status);
 })
 
 router.get('/StudentLogged',studentAuthenticate,(req,res)=>{
-    res.status(200);
+    res.sendStatus(req.status);
     
 })
 
@@ -200,13 +215,23 @@ router.get('/AdminResult',authenticate,async(req,res)=>{
         data.push(item);
     });
 
-    res.send(data);
+    if(req.status!==401){
+        res.send(data);
+    }else{
+        res.sendStatus(req.status);
+    }
 })
 
 router.get('/StudentResult',studentAuthenticate,(req,res)=>{
     console.log("Welcome to your profile");
-    const data=req.rootStudent.marks.length;
-    res.status(200).send({data});
+    if(req.status==200){
+        const data=req.rootStudent.marks.length;
+        res.status(req.status).send({data});
+    }else{
+        const data=0;
+        res.status(req.status).send({data});
+    }
+    
 })
 
 router.get('/Logout',authenticate,(req,res)=>{

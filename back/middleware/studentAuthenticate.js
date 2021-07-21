@@ -17,15 +17,16 @@ const StudentAuthenticate = async (req, res, next) => {
             req.token = token;
             req.rootStudent=rootStudent;
             req.userId=rootStudent._id;
+            req.status=200;
         }else{
-            res.status(401)    
+            req.status=401;    
         }
 
         next();
 
     } catch (error) {
         console.log(error)
-        res.status(401).send("Unauthorized: No token provided");
+        res.status(401).json({message:"Unauthorized: No token provided"});
     }
     
 }

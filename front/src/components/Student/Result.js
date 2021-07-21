@@ -1,5 +1,6 @@
 import React,{useState,useEffect} from 'react';
 import {useHistory} from 'react-router-dom';
+import Loader from '../Loader';
 import Navbar from './Navbar';
 
 const SResult = () =>{
@@ -7,6 +8,7 @@ const SResult = () =>{
     const [selected, setSelected] = useState("1");
     const [marks,setMarks]=useState([]);
     const [paper,setPaper]=useState(0);
+    const [loading,setLoading]=useState(false);
 
     const callResult = async()=>{
         try {
@@ -22,8 +24,8 @@ const SResult = () =>{
             const data = await res.json();
             setPaper(data.data);
 
-            if(!res.status===200){
-                window.alert("Result does not exists");
+            if(res.status!==200){
+                history.push('/');
             }
 
         } catch (error) {
@@ -33,10 +35,14 @@ const SResult = () =>{
     }
 
     const clickHandler = async()=>{
+
         try {
+                
+            setLoading(true);
 
             if(selected<=0 || selected>paper){
                 window.alert("Result Does not Exists");
+                    setLoading(false);
             }else{
             const res = await fetch('/StudentMarks',{
                 method : "POST",
@@ -51,23 +57,25 @@ const SResult = () =>{
 
             if(resData){
                 setMarks([resData.mark]);
+                setLoading(false);
             }
             if(res.status===400 || !resData) {
             window.alert("Result Does not exists");
+            setLoading(false);
         }else if(res.status===500){
             window.alert("Internal Server Error");
+            setLoading(false);
         }
     }
         } catch (error) {
-            console.log(error)
             window.alert("Error Fetching Marks");
+            setLoading(false);
         } 
     
     }
 
    const inputHandle =(e)=>{
         setSelected(e.target.value);
-        console.log(selected);
    }
 
     useEffect(()=>{
@@ -79,13 +87,13 @@ const SResult = () =>{
         <>
 
             <Navbar/>
-            <div className="container mt-5 profile overflow-auto">
+            <div className="container mt-5  overflow-auto">
                   <div className="row">
-                      <div className="col-md-10 col-10 mx-auto mt-3">
+                      <div className="col-md-8 col-10 profile mx-auto my-3">
                           <div className="row justify-content-center">
-                              <div className="col-md-10 col-10">
+                              <div className="col-md-10 col-12">
                                    <div className="row justify-content-center">
-                              <div className="col-md-4 col-6 mt-auto">
+                              <div className="col-md-4 col-6 mt-2">
                                 <label for="exampleDataList" className="form-label text-white">Choose Paper</label>
                                     <input className="form-control bg-transparent border border-2" list="datalistOptions" id="exampleDataList" 
                                     name="paper"
@@ -98,13 +106,14 @@ const SResult = () =>{
                                 </datalist>
                               </div>
                               <div className="col-md-3 col-6 mt-auto">
-                                <button type="button" className="btn btn-outline-primary text-white border-2 border-white shadow" onClick={clickHandler}>Search</button>
+                                <button type="button" className="btn btn-outline-primary text-white border-0 sendBtn" onClick={clickHandler}>Search</button>
 
                               </div>
                               </div>
                               </div>
                               <div className="col-md-10 col-12 mx-auto mt-4">
-                                    <table className="table">
+                                  {loading?<Loader/>:
+                                  <table className="table">
                                         <thead>
                                             <tr>
                                             <th scope="col">Subject</th>
@@ -114,7 +123,7 @@ const SResult = () =>{
                                         </thead>
                                         <tbody className="text-white">
                                             {marks.length>=1 && marks!==undefined?
-                                            marks.map((mark)=>{
+                                            marks.map((mark,idx)=>{
                                                 return (
                                                     <>
                                                     <tr>
@@ -143,14 +152,15 @@ const SResult = () =>{
                                                     </tr>
                                                     <tr>    
                                                         <th scope="row">Status</th>
-                                                        <td>{mark?((parseInt(mark.maths)+parseInt(mark.physics)+parseInt(mark.algo)+parseInt(mark.os))>=200?"Passed":"Failed"):<>-</>}</td>
+                                                        <td>{mark?((parseInt(mark.maths)+parseInt(mark.physics)+parseInt(mark.algo)+parseInt(mark.os))>=200?<span style={{color:'lightgreen'}}>Passed</span>:<span style={{color:'#FF6666'}}>Failed</span>):<>-</>}</td>
                                                     </tr> 
                                                     </>
                                                     
                                                 ) 
                                             }):<></>}
                                         </tbody>
-                                    </table>
+                                    </table>}
+                                    
                               </div>
 
                           </div>

@@ -9,7 +9,7 @@ const Navbar =(props)=>{
         <div className="container ">
            <nav className="navbar navbar-expand-lg navbar-light p-3 navbar">
                 <div className="container ">
-                    <p className="navbar-brand h2 text-white">SRMS</p>
+                    <p className="navbar-brand h2 text-white heading">SRMS</p>
                     <button className="navbar-toggler m-1 text-white mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon "></span>
                     </button>

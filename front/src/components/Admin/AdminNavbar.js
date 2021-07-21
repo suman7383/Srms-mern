@@ -7,7 +7,7 @@ const AdminNavbar= () =>{
         <>
             <nav className="navbar navbar-expand-lg navbar-light">
                 <div className="container mt-2">
-                    <p className="navbar-brand h2 text-white" to="/">SRMS</p>
+                    <p className="navbar-brand h2 text-white heading" to="/">SRMS</p>
                     <button className="navbar-toggler text-white me-3 mb-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
                     </button>

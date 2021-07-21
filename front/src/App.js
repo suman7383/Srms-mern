@@ -1,13 +1,12 @@
 import './App.css';
 import { Route } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.css';
-import SSignIn from './components/SSignIn';
-import ASignIn from './components/ASignIn';
-import AdminPage from './components/AdminPage';
+import SSignIn from './components/Student/SSignIn';
+import ASignIn from './components/Admin/ASignIn';
 import Profile from './components/Admin/Profile';
 import Result from './components/Admin/Result';
-import AdminNavbar from './components/AdminNavbar';
-import Logout from './components/Logout';
+import AdminNavbar from './components/Admin/AdminNavbar';
+import Logout from './components/Admin/Logout';
 import StudentSignup from './components/Student/StudentSignup';
 import StudentProfile from './components/Student/StudentProfile';
 import Navbar from './components/Student/Navbar';
@@ -37,10 +36,6 @@ function App() {
         </Route>
       <Route path="/ASignIn">
         <ASignIn/>
-      </Route>
-      <Route path="/AdminPage">
-        <AdminNavbar/>
-        <AdminPage/>
       </Route>
       <Route path="/AProfile">
           <AdminNavbar/>

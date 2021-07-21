@@ -1,10 +1,11 @@
 import React,{useState,useEffect} from 'react';
 import {useHistory} from 'react-router-dom';
+import Loader from '../Loader';
 
 const Profile = () =>{
 
     const history = useHistory();
-    const [userData,setUserData]=useState({});
+    const [userData,setUserData]=useState();
 
     const callProfile = async()=>{
         try {
@@ -20,8 +21,8 @@ const Profile = () =>{
             const data = await res.json();
             setUserData(data);
 
-            if(!res.status===200){
-                throw new Error("Not Authorized");
+            if(res.status===401){
+                history.push('/ASignIn');
             }
 
         } catch (error) {
@@ -37,15 +38,16 @@ const Profile = () =>{
 
     return(
         <>
-            <div className="container mt-5 profile">
+            <div className="container mt-5 ">
                 <div className="row">
-                    <div className="col-md-8 col-10 mx-auto">
+                    <div className="col-md-6 col-10 mx-auto profile">
                         <div className="row justify-content-center">
-                            <div className="col-md-12 col-12  my-auto">
+                            <div className="col-md-8 col-10  my-auto">
                                 <figure className="d-flex justify-content-around">
                                     <img src="/person.png" className="img-fluid" alt="person"></img>
                                 </figure>
                             </div>
+                            {!userData?<Loader/>:<>
                             <div className="col-md-5 col-6 ms-auto my-auto">
                                 <p className="text-white h5 mb-4">Name : </p>
                                 <p className="text-white h5 mb-4">Email : </p>
@@ -58,6 +60,8 @@ const Profile = () =>{
                                 <p className="text-white mb-4">{userData.phone} </p>
                                 <p className="text-white">Admin</p>
                             </div>
+                            </>}
+                            
                         </div>
                     </div>
                 </div>   

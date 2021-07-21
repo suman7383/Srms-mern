@@ -1,11 +1,12 @@
 import React,{useState,useEffect} from 'react';
 import {useHistory} from 'react-router-dom';
+import Loader from '../Loader';
 import Navbar from './Navbar';
 
 const StudentProfile = () =>{
 
     const history = useHistory();
-    const [userData,setUserData]=useState({});
+    const [userData,setUserData]=useState();
     const active = {profile:"active", result:""};
 
     const callProfile = async()=>{
@@ -22,8 +23,8 @@ const StudentProfile = () =>{
             const data = await res.json();
             setUserData(data);
 
-            if(!res.status===200){
-                throw new Error("Not Authorized");
+            if(res.status!==200){
+                history.push('/');
             }
 
         } catch (error) {
@@ -39,15 +40,17 @@ const StudentProfile = () =>{
     return (
         <>
             <Navbar active={active}/>
-            <div className="container mt-5 profile marks">
+            <div className="container mt-5 ">
                 <div className="row">
-                    <div className="col-md-10 col-10 mx-auto">
+                    <div className="col-md-6 col-10 mx-auto rounded profile marks  overflow-auto">
                         <div className="row justify-content-center">
-                            <div className="col-md-10 col-10  my-auto">
+                            <div className="col-md-10 col-10 my-auto">
                                 <figure className="d-flex justify-content-around">
                                     <img src="/person.png" className="img-fluid" alt="person"></img>
                                 </figure>
                             </div>
+                            {!userData?<Loader/>:
+                            <>
                             <div className="col-md-5 col-6 my-auto ms-auto">
                                 <p className="text-white mb-3">Name : </p>
                                 <p className="text-white mb-3">Reg. No. : </p>
@@ -62,6 +65,8 @@ const StudentProfile = () =>{
                                 <p className="text-white mb-3">{userData.phone} </p>
                                 <p className="text-white">Student</p>
                             </div>
+                            </>}
+                            
                         </div>
                     </div>
                 </div>   

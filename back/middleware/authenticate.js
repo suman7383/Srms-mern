@@ -4,8 +4,8 @@ const User = require('../models/adminSchema');
 const Authenticate = async (req, res, next) => {
     try {
         
-        
         const token =req.cookies.jwtoken;
+
         if(token!=null){
             const verifyToken =await jwt.verify(token,process.env.SECRET_KEY);
             const rootAdmin = await User.findOne({_id : verifyToken._id , "tokens.token":token});
@@ -17,14 +17,16 @@ const Authenticate = async (req, res, next) => {
             req.token = token;
             req.rootAdmin=rootAdmin;
             req.userId=rootAdmin._id;
+            req.status=200;
+
         }else{
-            res.status(401);
+            req.status=401;
         }
         next();
 
     } catch (error) {
         console.log(error)
-        res.status(401).send("Unauthorized: No token provided");
+        res.status(401).json({message:"Unauthorized: No token provided"});
     }
     
 }
